@@ -1,6 +1,30 @@
 ﻿@page "/todos"
+@using Toodoo.UI.Data
 
 <h1>Todos</h1>
+<ul class="@TodosPageElements.TodoList">
+    @foreach (var todo in _todos)
+    {
+        <li>@todo.Title</li>
+    }
+</ul>
+
+<input type="text" class="@TodosPageElements.NewTodoTitleInput" placeholder="something todo" @bind="_newTodoTitle" />
+<button class="@TodosPageElements.AddButton" @onclick="AddTodo">
+    Add
+</button>
+
 
 @code {
+    private readonly IList<TodoItem> _todos = new List<TodoItem>();
+    private string _newTodoTitle;
+
+    private void AddTodo()
+    {
+        _todos.Add(new TodoItem
+        {
+            Title = _newTodoTitle
+        });
+        _newTodoTitle = string.Empty;
+    }
 }
